@@ -12,7 +12,7 @@ AGENDA_SCHEMA = {
     "time_end": "text",
     "session_type": "text",
     "title": "text",
-    "room": "text",
+    "location": "text",
     "description": "text",
     "speakers": "text"
 }
@@ -24,7 +24,7 @@ def load_agenda(filename):
     sheet = workbook.sheet_by_index(0)
     
     # Define the column names
-    columns = ['Date', 'Start Time', 'End Time', 'Session Type', 'Title', 'Room', 'Description', 'Speakers']
+    columns = ['Date', 'Start Time', 'End Time', 'Session Type', 'Title', 'Location', 'Description', 'Speakers']
     
     # Initialize an empty list to hold the rows
     data = []
@@ -53,7 +53,7 @@ def create_agenda(agenda) -> None:
             "time_end": row['End Time'],
             "session_type": row['Session Type'],
             "title": row['Title'],
-            "room": row['Room'],
+            "location": row['Location'],
             "description": row['Description'],
             "speakers": row['Speakers']
         }
@@ -66,6 +66,7 @@ def create_agenda(agenda) -> None:
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Error: Less than or more than 2 given arguments. Please provide command line input as \"./import_agenda.py <filename>\"")
+        sys.exit(1)
     else:
         agenda = load_agenda(sys.argv[1])
         create_agenda(agenda)
