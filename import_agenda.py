@@ -2,6 +2,7 @@ from db_table import db_table
 import sys
 import pandas as pd
 import xlrd
+import json
 
 
 # Declare schema at the top for clarity!
@@ -17,7 +18,6 @@ AGENDA_SCHEMA = {
     "speakers": "text"
 }
 
-
 def load_agenda(filename):
     # Open the workbook using xlrd and obtain sheet index! 
     workbook = xlrd.open_workbook(filename)
@@ -28,14 +28,34 @@ def load_agenda(filename):
     
     # Initialize an empty list to hold the rows
     data = []
-    
+    subsMapIdx = {}
+    subsMapStrFormat = {}
     # Iterate over the rows, starting from the 14th row (index 13)
     for row_idx in range(15, sheet.nrows):
+        prime_key = row_idx-14
         row = sheet.row(row_idx)
         data.append([cell.value for cell in row])
+        if row[3].value == 'Session':
+            lastSession = prime_key
+            subsMapIdx[prime_key] = []
+            subsMapStrFormat[prime_key] = ""
+        elif row[3].value == 'Sub':
+            subsMapIdx[lastSession].append(prime_key)
+            outputString = ""
+            for cell in row:
+                outputString += str(cell.value) + " "
+            subsMapStrFormat[lastSession] += outputString
+
+
+    with open('subsession.json', 'w') as json_file:
+        json.dump(subsMapIdx, json_file, indent=4)
     
+    # Precalculates every result with subsessions, can be slightly faster than calculating during execution
+    with open('subsMapStrFormat.json', 'w') as json_file:
+        json.dump(subsMapStrFormat, json_file, indent=4)
+
     # Create a DataFrame (I'm more familiar with this library)
-    agenda_df = pd.DataFrame(data, columns=columns)
+    agenda_df = pd.DataFrame(data, columns=columns)    
     
     return agenda_df
 
@@ -59,8 +79,7 @@ def create_agenda(agenda) -> None:
         }
         # Insert into agenda table
         agenda_table.insert(agenda_row)
-        # Debug statement
-        print(_, row)
+
 
 
 if __name__ == "__main__":
@@ -70,3 +89,4 @@ if __name__ == "__main__":
     else:
         agenda = load_agenda(sys.argv[1])
         create_agenda(agenda)
+    
