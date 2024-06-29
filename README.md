@@ -1,13 +1,3 @@
-# Whova technical test
-Please read this README carefully as it contains all the details you need to know.
-
-
-
-## Exercise
-To complete this test, you will need to write two python scripts, as detailed below.
-
-
-
 ### Import Agenda
 This program imports the schedule of an event into a local SQLite database.
 
@@ -99,33 +89,6 @@ This file is very well documented, refer to it if you have any questions about h
 This is the file you are supposed to import for the "Import Agenda" program.
 We will always use the same format as the one you can observe in this file.
 You may be interested to open this file and to read the instructions at the top of the excel sheet.
-
-
-
-## What do we look at?
-* Your code quality
-* Your commits quality
-* Your problem solving ability
-* Your technical choices
-
-
-
-## What can you do?
-* You can use libraries
-* You can create as many database tables as you want
-* You can modify the provided code
-* You can do more than expected if you wish to
-* You can create as many files, classes, functions, ... as you want
-* ...
-You "can" does not mean you "must", nor does it mean we "expect".
-Do what you need to do to implement your solution as long as it is relevant.
-Use your own judgement.
-
-
-## How to submit
-1. Commit locally and preserve the git commit history
-2. Tar the code repository
-3. Send the tar as an email attachment to your contact at Whova
 
 
 ## Resources
